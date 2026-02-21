@@ -6,7 +6,7 @@ import { getToken, removeToken } from '../utils/auth';
    ============================================ */
 
 const api = axios.create({
-  baseURL: 'http://localhost:9080/api/v1',
+  baseURL: process.env.REACT_APP_API_BASE_URL || 'http://localhost:9080/api/v1',
   timeout: 15000,
   headers: {
     'Content-Type': 'application/json',
