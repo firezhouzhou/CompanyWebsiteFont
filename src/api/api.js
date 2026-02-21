@@ -6,7 +6,7 @@ import { getToken, removeToken } from '../utils/auth';
    ============================================ */
 
 const api = axios.create({
-  baseURL: 'http://localhost:8080/api/v1',
+  baseURL: 'http://localhost:9080/api/v1',
   timeout: 15000,
   headers: {
     'Content-Type': 'application/json',
@@ -123,15 +123,15 @@ export const submitContact = (data) => {
    ============================================ */
 
 export const login = (credentials) => {
-  return api.post('/auth/login', credentials);
+  return api.post('/user/login', credentials);
 };
 
 export const register = (userData) => {
-  return api.post('/auth/register', userData);
+  return api.post('/user/register', userData);
 };
 
 export const getCurrentUser = () => {
-  return api.get('/auth/me');
+  return api.get('/user/current');
 };
 
 /* ============================================
@@ -140,6 +140,14 @@ export const getCurrentUser = () => {
 
 export const search = (keyword, params) => {
   return api.get('/search', { params: { keyword, ...params } });
+};
+
+/* ============================================
+   Site Config API
+   ============================================ */
+
+export const getFooterConfig = () => {
+  return api.get('/site-config/footer');
 };
 
 /* ============================================

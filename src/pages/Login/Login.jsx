@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FiMail, FiLock, FiEye, FiEyeOff, FiLogIn } from 'react-icons/fi';
+import { FiUser, FiLock, FiEye, FiEyeOff, FiLogIn } from 'react-icons/fi';
 import { login as loginApi } from '../../api/api';
 import { setToken, setUser } from '../../utils/auth';
 import './Login.css';
 
 const Login = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [formData, setFormData] = useState({ account: '', password: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
@@ -25,14 +25,18 @@ const Login = () => {
 
     try {
       const response = await loginApi(formData);
-      setToken(response.data?.token || response.token);
-      setUser(response.data?.user || response.user);
+      const data = response.data || response;
+      setToken(data.token);
+      setUser({
+        username: data.username,
+        nickname: data.nickname,
+        role: data.role,
+      });
       navigate('/');
-      /* Force navbar to re-render by reloading */
       window.location.reload();
     } catch (err) {
       const msg =
-        err.response?.data?.message || '登录失败，请检查邮箱和密码是否正确。';
+        err.response?.data?.message || '登录失败，请检查账号和密码是否正确。';
       setError(msg);
     } finally {
       setIsLoading(false);
@@ -79,18 +83,18 @@ const Login = () => {
 
             <form className="login__form" onSubmit={handleSubmit}>
               <div className="login__form-group">
-                <label className="login__label" htmlFor="email">
-                  邮箱地址
+                <label className="login__label" htmlFor="account">
+                  邮箱 / 手机号
                 </label>
                 <div className="login__input-wrapper">
-                  <FiMail className="login__input-icon" />
+                  <FiUser className="login__input-icon" />
                   <input
-                    type="email"
-                    id="email"
-                    name="email"
+                    type="text"
+                    id="account"
+                    name="account"
                     className="login__input"
-                    placeholder="请输入邮箱地址"
-                    value={formData.email}
+                    placeholder="请输入邮箱或手机号"
+                    value={formData.account}
                     onChange={handleChange}
                     required
                     autoFocus

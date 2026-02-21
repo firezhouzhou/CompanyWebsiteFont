@@ -82,7 +82,7 @@ const Register = () => {
           <FiCheckCircle className="register__success-icon" />
           <h1 className="register__success-title">注册成功！</h1>
           <p className="register__success-text">
-            您的账户已成功创建，请使用注册邮箱登录。
+            您的账户已成功创建，请使用注册邮箱或手机号登录。
           </p>
           <Link to="/login" className="btn btn--primary register__success-btn">
             前往登录

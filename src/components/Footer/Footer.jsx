@@ -1,11 +1,51 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FiPhone, FiMail, FiMapPin } from 'react-icons/fi';
 import { FaWeixin, FaWeibo, FaLinkedin, FaGithub } from 'react-icons/fa';
+import { getFooterConfig } from '../../api/api';
 import './Footer.css';
+
+const DEFAULTS = {
+  footer_description: '领先的数字化解决方案提供商，致力于通过技术创新为全球客户创造价值，推动产业数字化转型升级。',
+  footer_contact_address: '北京市朝阳区科技园区888号',
+  footer_contact_phone: '400-888-8888',
+  footer_contact_email: 'contact@company.com',
+  footer_copyright: '',
+  footer_icp: '',
+  footer_icp_link: '',
+};
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const [config, setConfig] = useState(DEFAULTS);
+
+  useEffect(() => {
+    let cancelled = false;
+    async function fetchConfig() {
+      try {
+        const res = await getFooterConfig();
+        const list = res?.data || res || [];
+        if (!cancelled && Array.isArray(list) && list.length > 0) {
+          const map = { ...DEFAULTS };
+          list.forEach((item) => {
+            const k = item.configKey || item.key;
+            const v = item.configValue || item.value;
+            if (k && v) {
+              map[k] = v;
+            }
+          });
+          setConfig(map);
+        }
+      } catch {
+        // API 不可用时使用默认值
+      }
+    }
+    fetchConfig();
+    return () => { cancelled = true; };
+  }, []);
+
+  const copyright = config.footer_copyright
+    || `\u00A9 ${currentYear} 企业集团. All Rights Reserved. 保留所有权利.`;
 
   return (
     <footer className="footer" role="contentinfo">
@@ -17,8 +57,7 @@ const Footer = () => {
             <span className="footer__logo-text">企业集团</span>
           </Link>
           <p className="footer__description">
-            领先的数字化解决方案提供商，致力于通过技术创新为全球客户创造价值，
-            推动产业数字化转型升级。
+            {config.footer_description}
           </p>
           <div className="footer__social">
             <a
@@ -102,15 +141,15 @@ const Footer = () => {
           <ul className="footer__contact-list">
             <li className="footer__contact-item">
               <FiMapPin className="footer__contact-icon" />
-              <span>北京市朝阳区科技园区888号</span>
+              <span>{config.footer_contact_address}</span>
             </li>
             <li className="footer__contact-item">
               <FiPhone className="footer__contact-icon" />
-              <span>400-888-8888</span>
+              <span>{config.footer_contact_phone}</span>
             </li>
             <li className="footer__contact-item">
               <FiMail className="footer__contact-icon" />
-              <span>contact@company.com</span>
+              <span>{config.footer_contact_email}</span>
             </li>
           </ul>
           {/* WeChat QR Code Placeholder */}
@@ -126,9 +165,7 @@ const Footer = () => {
       {/* Footer Bottom */}
       <div className="footer__bottom">
         <div className="container footer__bottom-content">
-          <p className="footer__copyright">
-            &copy; {currentYear} 企业集团. All Rights Reserved. 保留所有权利.
-          </p>
+          <p className="footer__copyright">{copyright}</p>
           <div className="footer__bottom-links">
             <a href="/privacy" className="footer__bottom-link">隐私政策</a>
             <span className="footer__bottom-divider">|</span>
@@ -136,6 +173,22 @@ const Footer = () => {
             <span className="footer__bottom-divider">|</span>
             <a href="/sitemap" className="footer__bottom-link">网站地图</a>
           </div>
+          {config.footer_icp && (
+            <p className="footer__icp">
+              {config.footer_icp_link ? (
+                <a
+                  href={config.footer_icp_link}
+                  className="footer__icp-link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {config.footer_icp}
+                </a>
+              ) : (
+                config.footer_icp
+              )}
+            </p>
+          )}
         </div>
       </div>
     </footer>
