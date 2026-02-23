@@ -110,6 +110,30 @@ export const getTeamMembers = () => {
   return api.get('/about/team');
 };
 
+export const getTimeline = () => {
+  return api.get('/about/timeline');
+};
+
+export const getVisionMission = () => {
+  return api.get('/about/vision-mission');
+};
+
+export const getLeaders = () => {
+  return api.get('/about/leaders');
+};
+
+export const getCultureValues = () => {
+  return api.get('/about/culture-values');
+};
+
+export const getAwards = () => {
+  return api.get('/about/awards');
+};
+
+export const getJobPositions = () => {
+  return api.get('/about/job-positions');
+};
+
 /* ============================================
    Contact API
    ============================================ */
