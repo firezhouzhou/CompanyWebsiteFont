@@ -37,7 +37,7 @@ api.interceptors.response.use(
       switch (error.response.status) {
         case 401:
           removeToken();
-          window.location.href = '/login';
+          window.location.href = '/company/login';
           break;
         case 403:
           console.error('权限不足');

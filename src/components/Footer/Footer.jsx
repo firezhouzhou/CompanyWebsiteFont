@@ -167,11 +167,11 @@ const Footer = () => {
         <div className="container footer__bottom-content">
           <p className="footer__copyright">{copyright}</p>
           <div className="footer__bottom-links">
-            <a href="/privacy" className="footer__bottom-link">隐私政策</a>
+            <Link to="/privacy" className="footer__bottom-link">隐私政策</Link>
             <span className="footer__bottom-divider">|</span>
-            <a href="/terms" className="footer__bottom-link">服务条款</a>
+            <Link to="/terms" className="footer__bottom-link">服务条款</Link>
             <span className="footer__bottom-divider">|</span>
-            <a href="/sitemap" className="footer__bottom-link">网站地图</a>
+            <Link to="/sitemap" className="footer__bottom-link">网站地图</Link>
           </div>
           {config.footer_icp && (
             <p className="footer__icp">

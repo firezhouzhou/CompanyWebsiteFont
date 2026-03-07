@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import './Carousel.css';
 
@@ -78,9 +79,15 @@ const Carousel = ({ slides = [], autoPlay = true, interval = 5000 }) => {
                 <h1 className="carousel__title">{slide.title}</h1>
                 <p className="carousel__subtitle">{slide.subtitle}</p>
                 {slide.btnText && (
-                  <a href={slide.btnLink} className="btn btn--white carousel__btn">
-                    {slide.btnText}
-                  </a>
+                  slide.btnLink && /^https?:\/\//.test(slide.btnLink) ? (
+                    <a href={slide.btnLink} className="btn btn--white carousel__btn" target="_blank" rel="noopener noreferrer">
+                      {slide.btnText}
+                    </a>
+                  ) : (
+                    <Link to={slide.btnLink || '/'} className="btn btn--white carousel__btn">
+                      {slide.btnText}
+                    </Link>
+                  )
                 )}
               </div>
               <div className="carousel__visual">

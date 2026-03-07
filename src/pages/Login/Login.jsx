@@ -32,8 +32,8 @@ const Login = () => {
         nickname: data.nickname,
         role: data.role,
       });
-      navigate('/');
-      window.location.reload();
+      window.dispatchEvent(new Event('auth-change'));
+      navigate('/', { replace: true });
     } catch (err) {
       const msg =
         err.response?.data?.message || '登录失败，请检查账号和密码是否正确。';
@@ -134,9 +134,9 @@ const Login = () => {
                   <input type="checkbox" className="login__checkbox" />
                   <span>记住登录</span>
                 </label>
-                <a href="/forgot-password" className="login__forgot">
+                <Link to="/forgot-password" className="login__forgot">
                   忘记密码？
-                </a>
+                </Link>
               </div>
 
               <button

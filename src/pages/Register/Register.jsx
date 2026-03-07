@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   FiUser,
   FiMail,
@@ -267,13 +267,13 @@ const Register = () => {
                   />
                   <span>
                     我已阅读并同意{' '}
-                    <a href="/terms" className="register__agreement-link">
+                    <Link to="/terms" className="register__agreement-link">
                       用户协议
-                    </a>{' '}
+                    </Link>{' '}
                     和{' '}
-                    <a href="/privacy" className="register__agreement-link">
+                    <Link to="/privacy" className="register__agreement-link">
                       隐私政策
-                    </a>
+                    </Link>
                   </span>
                 </label>
               </div>

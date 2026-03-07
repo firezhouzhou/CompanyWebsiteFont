@@ -2,6 +2,7 @@
   "name": "company-website-font",
   "version": "1.0.0",
   "private": true,
+  "homepage": "/company",
   "description": "企业官网前端项目",
   "dependencies": {
     "axios": "^1.6.0",

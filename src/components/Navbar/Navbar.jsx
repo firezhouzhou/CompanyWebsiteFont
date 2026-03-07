@@ -21,10 +21,16 @@ const Navbar = () => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
+  const refreshAuth = useCallback(() => {
     setLoggedIn(isAuthenticated());
     setUser(getUser());
   }, []);
+
+  useEffect(() => {
+    refreshAuth();
+    window.addEventListener('auth-change', refreshAuth);
+    return () => window.removeEventListener('auth-change', refreshAuth);
+  }, [refreshAuth]);
 
   const handleScroll = useCallback(() => {
     setIsScrolled(window.scrollY > 10);
